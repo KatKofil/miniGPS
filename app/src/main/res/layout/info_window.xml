@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/movie_img"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/ic_launcher_background"/>
-    
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="193dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
@@ -23,19 +23,13 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/movie_director"
+            android:id="@+id/movie_infos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/movie_year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/movie_production"
+            android:id="@+id/movie_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TextView" />

@@ -1,17 +1,19 @@
 package com.example.parisfilms;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
 import android.app.Dialog;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,7 +25,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -70,40 +71,28 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if ((mMap != null)){
-            mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-                @Override
-                public View getInfoWindow(Marker marker) {
-                    return null;
-                }
+        //mMap.setMyLocationEnabled(true);
+        MarkerOptions parisJeTaime = new MarkerOptions();
+        LatLng parisJeTaimeLL = new LatLng(48.85183903718529,2.3675630230242177);
 
-                @Override
-                public View getInfoContents(Marker marker) {
-                    View v = getLayoutInflater().inflate(R.layout.info_window, null);
-                    TextView movieTitle = v.findViewById(R.id.movie_title);
-                    TextView movieDirector = v.findViewById(R.id.movie_director);
-                    TextView movieYear = v.findViewById(R.id.movie_year);
-                    TextView movieProduction = v.findViewById(R.id.movie_production);
-                    LatLng ll = marker.getPosition();
-                    movieTitle.setText(marker.getTitle());
-                    movieDirector.setText("Réalisateur: " + marker.getTitle());
-                    movieYear.setText("Année: " + "https://www.google.fr/");
-                    movieProduction.setText("Production: " + marker.getSnippet());
-                    return v;
-                }
-            });
-        }
-        //mMap.setMyLocationEnabled(true);
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        LatLng parisJeTaime = new LatLng(48.85183903718529,2.3675630230242177);
-        mMap.addMarker(new MarkerOptions()
-                .position(parisJeTaime)
-                //.icon(BitmapDescriptorFactory.fromFile(R.img.parisjetaime.jpg))
+        mMap.addMarker(parisJeTaime
+                .position(parisJeTaimeLL)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.parisjetaime_resized))
                 .title("Paris je t'aime")
-                .snippet("tourné en 2006"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parisJeTaime, 13));
+                .snippet("Réalisateur : ? \nAnnée : 2006 \nProduction : France \n" + "https://www.google.fr/"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(parisJeTaimeLL, 13));
         //mMap.setMyLocationEnabled(true);
+
+        MarkerOptions beforeSunset = new MarkerOptions();
+        LatLng beforeSunsetLL = new LatLng(48.84820670798742,2.372026218824999);
+        mMap.addMarker(beforeSunset
+                .position(beforeSunsetLL)
+                //.icon(BitmapDescriptorFactory.fromResource(R.drawable.parisjetaime_resized))
+                .title("Before Sunset")
+                .snippet("Réalisateur : Richard Linklater \nAnnée : 2005 \nProduction : USA \nhttps://www.google.fr/ "));
+
+        CustomInfoWindowAdapter adapter = new CustomInfoWindowAdapter(MapsActivity.this);
+        mMap.setInfoWindowAdapter(adapter);
     }
 
     public void geoLocate(View view) throws IOException {

@@ -101,16 +101,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Geocoder gc = new Geocoder(this);
         List<Address> list = gc.getFromLocationName(location, 1);
-        Address address = list.get(0);
-        String locality = address.getLocality();
+        try {
+            Address address = list.get(0);
+            String locality = address.getLocality();
 
-        Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, locality, Toast.LENGTH_LONG).show();
 
-        double lat = address.getLatitude();
-        double lng = address.getLongitude();
+            double lat = address.getLatitude();
+            double lng = address.getLongitude();
 
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom((new LatLng(lat,lng)), 13);
-        mMap.moveCamera(update);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom((new LatLng(lat,lng)), 13);
+            mMap.moveCamera(update);
+        }
+        catch (Exception e){
+            Toast.makeText(this, "not a location", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
